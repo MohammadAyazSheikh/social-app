@@ -10,9 +10,7 @@ import {root_Tab} from '../routes/rooTab';
 
 const rootStack = createStackNavigator();
 
-function roo_Stak(){
-  
-}
+
 
 export default function Main() {
   return (
@@ -23,7 +21,7 @@ export default function Main() {
             textAlign: 'center'
           },
           headerStyle: {
-            backgroundColor: '#eb6534',
+            backgroundColor: '#A4A7A0',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {

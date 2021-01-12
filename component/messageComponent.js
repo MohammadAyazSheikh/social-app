@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import {
     Text, View, TouchableOpacity, StyleSheet,
-    Dimensions, TextInput, Image, FlatList
-}
-    from 'react-native';
+    Dimensions, Image, FlatList, SafeAreaView
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input,ListItem} from 'react-native-elements';
+import { Input, ListItem } from 'react-native-elements';
 
-import { ScrollView } from 'react-native-gesture-handler';
-import { Alert } from 'react-native';
-import {msgs} from '../shared/msg'
+import { msgs } from '../shared/msg'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
+import { FloatingAction } from "react-native-floating-action";
 
 
 export default class Message extends Component {
@@ -24,10 +21,22 @@ export default class Message extends Component {
 
     }
 
+
     render() {
-        const  renderMsg = ({item}) => {
+        const actions = [
+            {
+                color: '#252623',
+                text: "New Message",
+                icon: require("../shared/images/msg.png"),
+                name: "btnMsg",
+                position: 1,
+                //textBackground:'red'
+                //textColor:'red'
+            },
+        ];
+        const renderMsg = ({ item }) => {
             return (
-                <TouchableOpacity onPress = {()=> { this.props.navigation.navigate('Chat',{userName:item.name})}}>
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate('Chat', { userName: item.name }) }}>
                     <View style={styles.row}>
                         <View style={styles.imgBox}>
                             <Image
@@ -46,64 +55,48 @@ export default class Message extends Component {
                                 <Text style={styles.Time}>{item.time}</Text>
                             </View>
                         </View>
-        
+
                     </View>
                 </TouchableOpacity>
             );
         }
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <FlatList
                     data={this.state.msg}
                     renderItem={renderMsg}
                     keyExtractor={item => item.id.toString()}
                 />
-            </View>
+                <FloatingAction
+                    color='#252623'
+                    actions={actions}
+                    onPressItem={name => {
+                        //console.log(`selected button: ${name}`);
+                        this.props.navigation.navigate('NewMsg');
+                    }}
+                />
+            </SafeAreaView>
         );
     }
 }
 
-// function renderMsg({item}) {
-//     return (
-//         <TouchableOpacity onPress = {()=> { item.navigate('SignUp')}}>
-//             <View style={styles.row}>
-//                 <View style={styles.imgBox}>
-//                     <Image
-//                         source={require('../shared/images/profile.png')}
-//                         style={styles.img}
-//                     />
-//                 </View>
-//                 <View style={styles.msgBox}>
-//                     <View>
-//                         <Text style={styles.name}>{item.name}</Text>
-//                     </View>
-//                     <View>
-//                         <Text style={styles.msg}>{item.msg}</Text>
-//                     </View>
-//                     <View>
-//                         <Text style={styles.Time}>{item.time}</Text>
-//                     </View>
-//                 </View>
 
-//             </View>
-//         </TouchableOpacity>
-//     );
-// }
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         alignItems: 'stretch',
         flex: 1,
         backgroundColor: 'skyblue',
+        marginTop: 25
     },
 
     row: {
         height: 90,
         flexDirection: 'row',
-        backgroundColor: 'white',
+        backgroundColor: '#E1E2DF',
         color: 'green',
         alignItems: 'center',
-        borderBottomColor: 'grey',
+        borderBottomColor: '#252623',
         borderBottomWidth: 1.5
     },
     img: {
@@ -111,7 +104,7 @@ const styles = StyleSheet.create({
         height: 80,
         borderRadius: 50,
         //backgroundColor: 'lightpink',
-        borderColor: 'grey',
+        borderColor: '#252623',
         borderWidth: 1
     },
     imgBox: {

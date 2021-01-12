@@ -116,33 +116,37 @@ const styles = StyleSheet.create({
         flex: 8,
         flexDirection: 'column',
         alignItems: 'stretch',
-        backgroundColor: '#161730'
+        backgroundColor: 'grey'//'#343531'
     },
     recvMsg: {
-        backgroundColor: '#ed7245',
+        backgroundColor:  '#343531',//'#E2B1B1',//'#01ABF4',//'#31c2fe',
         width: (windowWidth / 100) * 80,
         margin: 5,
         padding: 5,
         alignSelf: 'flex-end',
         borderRadius: 15,
-        borderBottomRightRadius: 0
+        borderBottomRightRadius: 0,
+        elevation:10
     },
     recvTxt: {
         fontSize: 15,
+        padding:10,
         color: 'white'
     },
     senderMsg: {
-        backgroundColor: '#6575a4',
+        backgroundColor: 'white',
         width: (windowWidth / 100) * 80,
         margin: 5,
         padding: 5,
         alignSelf: 'flex-start',
         borderRadius: 15,
-        borderBottomLeftRadius: 0
+        borderBottomLeftRadius: 0,
+        elevation:10
     },
     senderTxt: {
         fontSize: 15,
-        color: 'white'
+        color: 'black',
+        padding:10,
     },
     InputRow: {
         flex: 1,
@@ -158,7 +162,7 @@ const styles = StyleSheet.create({
     InputBtnEnb:{
         flex:1,
         alignSelf:'center',
-        backgroundColor:'#161730', 
+        backgroundColor:'#343531', 
         borderRadius:10,
         //paddingRight:5,
         paddingLeft:5,
@@ -170,7 +174,7 @@ const styles = StyleSheet.create({
     InputBtnDis:{
         flex:1,
         alignSelf:'center',
-        backgroundColor:'#2d2f62', 
+        backgroundColor:'#54554E', 
         borderRadius:10,
         //paddingRight:5,
         paddingLeft:5,

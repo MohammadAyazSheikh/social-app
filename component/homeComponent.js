@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, Button, colors } from 'react-native-elements';
 import { Dimensions } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { _ScrollView } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { LinearGradient } from 'expo-linear-gradient'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -16,27 +14,35 @@ export default class Home extends Component {
     render() {
         //   const {id, name} =  this.props.route.params;
         return (
-            <View style={styles.container}>
-                <View style={styles.logoRow}>
-                    <Text style={styles.logoText}>Social App</Text>
-                </View>
-                <View style={styles.InputRow}>
-                    <View style={styles.InputItem}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('LogIn')} >
-                            <Text style={styles.btn}>Log In</Text>
-                        </TouchableOpacity>
+            <View style={styles.containerMain}>
+                <LinearGradient
+                    colors={['#151823', '#343531']} //  #252623
+                    style={styles.container}>
+
+                    <View style={styles.logoRow}>
+                        <Icon style = {styles.logo} name='american-sign-language-interpreting' size={80} color='white' />
+                        <Text style={styles.logoText}>Social App</Text>
                     </View>
-                    <View style={styles.InputItem}>
-                        <Text style={styles.txt}>Don't Have Account?</Text>
-                        <Text style={styles.txt}>SignUp Now..!</Text>
+
+                    <View style={styles.InputRow}>
+                        <View style={styles.InputItem}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('LogIn')} >
+                                    <Text style={styles.btn}>Log In</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.InputItem}>
+                            <Text style={styles.txt}>Don't Have Account?</Text>
+                            <Text style={styles.txt}>SignUp Now..!</Text>
+                        </View>
+                        <View style={styles.InputItem}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('SignUp')}>
+                            <Text style={styles.btn}>Register</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <View style={styles.InputItem}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('SignUp')}>
-                            <Text style={styles.btn}>Sign Up</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </View>
+                </LinearGradient>
+
+            </View >
 
             // {/* <Button title="Go To Root" onPress={() => this.props.navigation.navigate('RootTab')} /> */}
 
@@ -46,32 +52,37 @@ export default class Home extends Component {
 
 
 const styles = StyleSheet.create({
+    containerMain: {
+        flex: 1,
+    },
     container: {
         flexDirection: 'column',
         alignItems: 'stretch',
         flex: 1,
-        backgroundColor: '#161730'
+        //backgroundColor: '#161730',
     },
     logoRow: {
         flex: 2,
-        flexDirection: 'row',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-
-        // marginTop:50,
-        // marginBottom:60
+        shadowColor:'grey',
+        
     },
     logoText: {
-        fontSize: Math.round((windowWidth / 100) * 15),
+        fontSize: Math.round((windowWidth / 100) * 10),
         color: 'white',
         fontWeight: 'bold',
-        
+    },
+    logo: {
+        fontSize: Math.round((windowWidth / 100) * 25),
+        color: 'white',
     },
     InputRow: {
         flex: 3,
         flexDirection: 'column',
         alignItems: 'center',
-        
+
     },
     InputItem: {
 
@@ -79,7 +90,7 @@ const styles = StyleSheet.create({
         margin: 10
     },
     btn: {
-        color: '#161730',
+        color: '#151823',
         fontSize: 25,
         alignSelf: 'center',
         backgroundColor: 'white',
@@ -88,13 +99,21 @@ const styles = StyleSheet.create({
         width: Math.round((windowWidth / 100) * 80),
         textAlign: "center",
         fontWeight: 'bold',
+        elevation:10
     },
     txt: {
-        color: 'grey',
-        fontSize: 15,
+        color: 'white',
+        fontSize: 13,
         alignSelf: 'center',
         padding: 5,
         textAlign: "center",
-        fontWeight: 'bold'
-    }
+        fontWeight: 'bold',
+    },
+    linearGradient: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        height: 200,
+        width: 350,
+    },
 });

@@ -4,7 +4,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Message from '../component/messageComponent';
 import Chat from '../component/chatComponent';
+import NewMsg from '../component/newMsgComponent';
+import Friends from '../component/friendsComponent';
 import { Text, View, Button } from 'react-native';
+import Freinds from '../component/friendsComponent';
 
 
 
@@ -20,7 +23,7 @@ function msg_Stack() {
                     textAlign: 'center'
                 },
                 headerStyle: {
-                    backgroundColor: '#eb6534',
+                    backgroundColor: '#252623',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
@@ -36,7 +39,11 @@ function msg_Stack() {
                     headerShown: false
                 }} />
             <msgStack.Screen name="Chat" component={Chat}
-                options={({ route }) => ({ title: route.params.userName })}
+                options={
+                    ({ route }) => ({ title: route.params.userName })}
+            />
+            <msgStack.Screen name="NewMsg" component={NewMsg}
+                options={{ title: 'New Message' }}
             />
         </msgStack.Navigator>
     );
@@ -51,15 +58,18 @@ export function root_Tab() {
                         let iconName;
 
                         if (route.name === 'Message') {
-                            iconName = 'commenting'
-                        } else if (route.name === 'Friend') {
+                            iconName = 'align-center'
+                        } else if (route.name === 'Friends') {
                             iconName = 'users'
                             //iconName = focused ? 'at' : 'facebook';
                         } else if (route.name === 'Profile') {
-                            iconName = 'user-circle-o'
+                            iconName = 'user-circle'
                         }
                         else if (route.name === 'Search') {
                             iconName = 'search'
+                        }
+                        else if (route.name === 'Notification') {
+                            iconName = 'bell'
                         }
                         return <Icon name={iconName} size={size} color={color} />;
                     },
@@ -68,22 +78,23 @@ export function root_Tab() {
 
             tabBarOptions={{
                 activeTintColor: 'white',
-                inactiveTintColor: '#b5dfca',
+                inactiveTintColor: 'grey',
                 showLabel: false,
                 showIcon: true,
                 // labelStyle: {
                 //   fontSize: 15,
                 // },
                 style: {
-                    backgroundColor: '#eb6534',
+                    backgroundColor: '#252623',
                     height: 50
                 }
             }}
         >
             <rootTab.Screen name="Message" component={msg_Stack} options={{ tabBarBadge: 3 }} />
-            <rootTab.Screen name="Friend" component={Tab1} />
+            <rootTab.Screen name="Friends" component={Freinds} />
             <rootTab.Screen name="Profile" component={Tab1} />
             <rootTab.Screen name="Search" component={Tab1} />
+            <rootTab.Screen name="Notification" component={Tab1} options={{ tabBarBadge: 6 }} />
         </rootTab.Navigator>
     );
 }
