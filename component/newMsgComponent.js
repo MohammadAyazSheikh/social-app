@@ -88,12 +88,11 @@ const styles = StyleSheet.create({
         marginTop: 5,
         height: 50,
         marginRight: 5,
-        marginLeft: 5
+        marginLeft: 5,
+        elevation:2,
     },
     txtInputView: {
         flex: 9,
-
-
     },
     txtInput: {
         textAlign: 'center',
@@ -106,7 +105,7 @@ const styles = StyleSheet.create({
     },
     rowUser: {
         flexDirection: 'row',
-
+        elevation:5,
         backgroundColor: '#E1E2DF',
         margin: 5,
         height: 90,

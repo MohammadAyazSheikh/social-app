@@ -6,7 +6,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Users } from '../shared/user'
 
-export default class Freinds extends Component {
+export default class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,7 +36,7 @@ export default class Freinds extends Component {
                         </View>
                         <View style={styles.btnDltBox}>
                             <TouchableOpacity style={styles.btnDltTouch} >
-                                <Icon name='trash' size={35} color='grey' style={styles.btnDlt} />
+                                <Icon name='plus' size={35} color='grey' style={styles.btnDlt} />
                             </TouchableOpacity>
                         </View>
 
@@ -68,11 +68,16 @@ export default class Freinds extends Component {
                     </View>
                 </View>
                 <View style={{ flex: 1 }}>
-                    <FlatList
-                        data={this.state.Users}
-                        renderItem={this.renderUser}
-                        keyExtractor={item => item.id.toString()}
-                    />
+                    {
+                        this.state.userSearch ? <FlatList
+                            data={this.state.Users}
+                            renderItem={this.renderUser}
+                            keyExtractor={item => item.id.toString()}
+                        /> : <Text></Text>
+                    }
+
+
+
                 </View>
             </SafeAreaView>
         );
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
         height: 50,
         marginRight: 5,
         marginLeft: 5,
-        elevation:2,
+        elevation: 2,
     },
     txtInputView: {
         flex: 7,
@@ -113,7 +118,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#E1E2DF',
         margin: 5,
         height: 90,
-        elevation:5
+        elevation: 5
     },
     img: {
         width: 80,
@@ -129,7 +134,7 @@ const styles = StyleSheet.create({
     nameBox: {
         flex: 11,
         justifyContent: 'center',
-        marginLeft:5
+        marginLeft: 5
     },
     name: {
         fontSize: 25,
@@ -146,7 +151,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: 45,
         height: 45,
-        elevation:5
+        elevation: 5
     },
     btnDlt: {
         alignSelf: 'center',

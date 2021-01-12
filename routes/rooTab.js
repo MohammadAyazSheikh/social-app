@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Text, View, Button } from 'react-native';
 import Message from '../component/messageComponent';
 import Chat from '../component/chatComponent';
 import NewMsg from '../component/newMsgComponent';
-import Friends from '../component/friendsComponent';
-import { Text, View, Button } from 'react-native';
+import Search from '../component/searchComponent';
 import Freinds from '../component/friendsComponent';
 
 
@@ -93,7 +93,7 @@ export function root_Tab() {
             <rootTab.Screen name="Message" component={msg_Stack} options={{ tabBarBadge: 3 }} />
             <rootTab.Screen name="Friends" component={Freinds} />
             <rootTab.Screen name="Profile" component={Tab1} />
-            <rootTab.Screen name="Search" component={Tab1} />
+            <rootTab.Screen name="Search" component={Search} />
             <rootTab.Screen name="Notification" component={Tab1} options={{ tabBarBadge: 6 }} />
         </rootTab.Navigator>
     );

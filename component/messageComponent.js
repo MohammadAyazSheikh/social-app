@@ -27,9 +27,10 @@ export default class Message extends Component {
             {
                 color: '#252623',
                 text: "New Message",
-                icon: require("../shared/images/msg.png"),
+                icon: require("../shared/images/msg2.png"),
                 name: "btnMsg",
                 position: 1,
+               // buttonSize:50
                 //textBackground:'red'
                 //textColor:'red'
             },
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'stretch',
         flex: 1,
-        backgroundColor: 'skyblue',
+        backgroundColor: '#EBEBEA',
         marginTop: 25
     },
 
@@ -96,8 +97,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#E1E2DF',
         color: 'green',
         alignItems: 'center',
-        borderBottomColor: '#252623',
-        borderBottomWidth: 1.5
+        margin:5,
+        elevation:5
     },
     img: {
         width: 80,

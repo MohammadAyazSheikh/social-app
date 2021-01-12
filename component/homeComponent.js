@@ -21,7 +21,7 @@ export default class Home extends Component {
 
                     <View style={styles.logoRow}>
                         <Icon style = {styles.logo} name='american-sign-language-interpreting' size={80} color='white' />
-                        <Text style={styles.logoText}>Social App</Text>
+                        <Text style={styles.logoText}>Rabtay</Text>
                     </View>
 
                     <View style={styles.InputRow}>
