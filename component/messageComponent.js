@@ -37,7 +37,9 @@ export default class Message extends Component {
         ];
         const renderMsg = ({ item }) => {
             return (
-                <TouchableOpacity onPress={() => { this.props.navigation.navigate('Chat', { userName: item.name }) }}>
+                <TouchableOpacity onPress={() => { 
+                    this.props.navigation.navigate('Chat', { userName: item.name }) 
+                    }}>
                     <View style={styles.row}>
                         <View style={styles.imgBox}>
                             <Image

@@ -36,7 +36,7 @@ export default class Search extends Component {
                         </View>
                         <View style={styles.btnDltBox}>
                             <TouchableOpacity style={styles.btnDltTouch} >
-                                <Icon name='plus' size={35} color='grey' style={styles.btnDlt} />
+                                <Icon name='user-plus' size={30} color='grey' style={styles.btnDlt} />
                             </TouchableOpacity>
                         </View>
 

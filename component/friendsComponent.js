@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'stretch',
         backgroundColor: 'grey',
-        marginTop: 30,
+        marginTop: 5,
         height: 50,
         marginRight: 5,
         marginLeft: 5,

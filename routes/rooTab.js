@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text, View, Button } from 'react-native';
 import Message from '../component/messageComponent';
@@ -11,9 +12,42 @@ import Freinds from '../component/friendsComponent';
 
 
 
+const msgTopTab = createMaterialTopTabNavigator();
+
 const msgStack = createStackNavigator();
 
 const rootTab = createBottomTabNavigator();
+
+
+function msg_Top_Tab() {
+    return (
+        <msgTopTab.Navigator initialRouteName='AllFreinds'
+
+            tabBarOptions={
+                {
+                    labelStyle: {
+                        fontSize: 18,
+                    },
+                    // tabStyle: {
+                    //     width: 100,
+                    // },
+                    activeTintColor: 'white',
+                    inactiveTintColor: 'grey',
+                    style: {
+                        backgroundColor: '#252623',
+                        marginTop: 25,
+                    },
+                    indicatorStyle: {
+                        borderBottomColor: 'grey',
+                        borderBottomWidth: 4,
+                        //borderColor: 'grey',
+                    },
+                }}>
+            <msgTopTab.Screen name="AllFreinds" options={{ title: 'Friends' }} component={Freinds} />
+            <msgTopTab.Screen name="Active" component={Tab2} />
+        </msgTopTab.Navigator>
+    );
+}
 
 function msg_Stack() {
     return (
@@ -31,8 +65,7 @@ function msg_Stack() {
                     alignSelf: 'center',
                     marginRight: 50
                 },
-            }}
-        >
+            }}>
             <msgStack.Screen name="msg" component={Message}
                 options={{ title: 'Messages' }}
                 options={{
@@ -43,6 +76,9 @@ function msg_Stack() {
                     ({ route }) => ({ title: route.params.userName })}
             />
             <msgStack.Screen name="NewMsg" component={NewMsg}
+                options={{ title: 'New Message' }}
+            />
+            <msgStack.Screen name="topTab" component={msg_Top_Tab}
                 options={{ title: 'New Message' }}
             />
         </msgStack.Navigator>
@@ -91,7 +127,7 @@ export function root_Tab() {
             }}
         >
             <rootTab.Screen name="Message" component={msg_Stack} options={{ tabBarBadge: 3 }} />
-            <rootTab.Screen name="Friends" component={Freinds} />
+            <rootTab.Screen name="Friends" component={msg_Top_Tab} />
             <rootTab.Screen name="Profile" component={Tab1} />
             <rootTab.Screen name="Search" component={Search} />
             <rootTab.Screen name="Notification" component={Tab1} options={{ tabBarBadge: 6 }} />
