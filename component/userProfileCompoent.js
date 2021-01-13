@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
-    Text, View, TouchableOpacity, StyleSheet,
-    Dimensions, Image, Modal, SafeAreaView, Alert
+    Text, View, TouchableOpacity, StyleSheet, TouchableHighlight,
+    Dimensions, Image, Modal, SafeAreaView, Alert, TextInput
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, ListItem } from 'react-native-elements';
@@ -18,6 +18,8 @@ export default class UserProfile extends Component {
         super(props);
         this.state = {
             isModalOpen: false,
+            editName: '',
+            editVal: ''
         }
         this.toggleModal = this.toggleModal.bind(this);
     }
@@ -30,6 +32,43 @@ export default class UserProfile extends Component {
 
         return (
             <SafeAreaView style={styles.container}>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.isModalOpen}
+                    onRequestClose={() => {
+                        Alert.alert('Modal has been closed.');
+                    }}>
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>{'Edit ' + this.state.editName}</Text>
+                            <TextInput
+                                placeholder={'Edit ' + this.state.editName}
+                                multiline={true}
+                                onChangeText={(val) => { this.setState({ editVal: val }) }}
+                                style={styles.input}
+                            />
+                            <View style={styles.modalBtnRow}>
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton, marginRight: 15 }}
+                                    onPress={() => {
+                                        this.toggleModal()
+                                    }}>
+                                    <Text style={styles.textStyle}>Close</Text>
+                                </TouchableHighlight>
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton, marginLeft: 15 }}
+                                    onPress={() => {
+                                        Alert.alert('Changes Done..!')
+                                        this.toggleModal()
+                                    }}>
+                                    <Text style={styles.textStyle}>Done</Text>
+                                </TouchableHighlight>
+                            </View>
+
+                        </View>
+                    </View>
+                </Modal>
                 <View style={styles.rowDisplay}>
                     <View style={styles.imageRow}>
                         <Image
@@ -64,7 +103,8 @@ export default class UserProfile extends Component {
                                 <View style={styles.TxtInfo}>
                                     <Text style={styles.TxtInfoInner}>Karachi</Text>
                                 </View>
-                                <TouchableOpacity style={styles.editBtn}>
+                                <TouchableOpacity style={styles.editBtn}
+                                    onPress={() => { this.toggleModal(); this.setState({ editName: 'City' }) }}>
                                     <Icon name='edit' size={35} color='white' />
                                 </TouchableOpacity>
                             </View>
@@ -79,7 +119,8 @@ export default class UserProfile extends Component {
                                 <View style={styles.TxtInfo}>
                                     <Text style={styles.TxtInfoInner}>Single </Text>
                                 </View>
-                                <TouchableOpacity style={styles.editBtn}>
+                                <TouchableOpacity style={styles.editBtn}
+                                    onPress={() => { this.toggleModal(); this.setState({ editName: 'Relationship' }) }}>
                                     <Icon name='edit' size={35} color='white' />
                                 </TouchableOpacity>
                             </View>
@@ -96,7 +137,7 @@ export default class UserProfile extends Component {
                                     <Text style={styles.TxtInfoInner}>PAF-KIET</Text>
                                 </View>
                                 <TouchableOpacity style={styles.editBtn}
-                                    onPress={() => {this.toggleModal() }}>
+                                    onPress={() => { this.toggleModal(); this.setState({ editName: 'Education' }) }}>
                                     <Icon name='edit' size={35} color='white' />
                                 </TouchableOpacity>
                             </View>
@@ -104,13 +145,6 @@ export default class UserProfile extends Component {
 
                     </View>
                 </ScrollView>
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.isModalOpen}
-                    onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
-                    }} />
             </SafeAreaView>
         );
     }
@@ -226,6 +260,68 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 10
     },
+
+
+
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    modalBtnRow: {
+        flexDirection: 'row'
+    }
+    ,
+    openButton: {
+        backgroundColor: '#252623',
+        borderRadius: 20,
+        padding: 15,
+        elevation: 2,
+    },
+    textStyle: {
+        color: '#EBEBEA',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 20
+    },
+    modalText: {
+        color: '#252623',
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginBottom: 15,
+        textAlign: 'center',
+    },
+
+
+    input: {
+        textAlign: 'center',
+        height: windowHeight / 100 * 8,
+        width: windowHeight / 100 * 30,
+        margin: 20,
+        padding: 5,
+        borderRadius: 10,
+        color: 'white',
+        backgroundColor: 'grey',
+        fontSize: 14
+    }
+
+
 });
 
 
