@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import {
-    Text, View, TouchableOpacity, StyleSheet,
-    Dimensions, Image, FlatList, SafeAreaView
+    Text, View, TouchableOpacity, StyleSheet,Image, FlatList, SafeAreaView
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, ListItem } from 'react-native-elements';
-
 import { msgs } from '../shared/msg'
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 import { FloatingAction } from "react-native-floating-action";
 
 

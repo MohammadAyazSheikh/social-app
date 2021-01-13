@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { _ScrollView } from 'react-native';
 import {
     Text, View, TouchableOpacity, StyleSheet, TextInput,
     SafeAreaView, Image, FlatList
@@ -6,7 +7,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Users } from '../shared/user'
 
-export default class Freinds extends Component {
+export default class ActiveFreinds extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +22,7 @@ export default class Freinds extends Component {
         if (uName.includes(this.state.userSearch)) {
 
             return (
-                <TouchableOpacity onPress={() => { this.props.navigation.navigate('friendProfile', { userName: item.name }) }}>
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate('Chat', { userName: item.name }) }}>
                     <View style={styles.rowUser}>
                         <View style={styles.imgBox}>
                             <Image
@@ -35,10 +36,11 @@ export default class Freinds extends Component {
                             </View>
                         </View>
                         <View style={styles.btnDltBox}>
-                            <TouchableOpacity style={styles.btnDltTouch} >
-                                <Icon name='trash' size={35} color='grey' style={styles.btnDlt} />
-                            </TouchableOpacity>
+                            <View style={styles.btnDltTouch} >
+                                <Icon name='circle' size={20} color='grey' style={styles.btnDlt} />
+                            </View>
                         </View>
+
                     </View>
                 </TouchableOpacity>
             );
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
         height: 50,
         marginRight: 5,
         marginLeft: 5,
-        elevation: 2,
+        elevation: 1,
     },
     txtInputView: {
         flex: 7,
@@ -138,19 +140,21 @@ const styles = StyleSheet.create({
         flex: 2,
         justifyContent: 'center',
         marginRight: 10,
+
+
     },
     btnDltTouch: {
-        backgroundColor: 'grey',
+       // backgroundColor: 'grey',
         borderRadius: 50,
         alignSelf: 'center',
-        width: 45,
-        height: 45,
+        width: 20,
+        height: 20,
         elevation: 5
     },
     btnDlt: {
         alignSelf: 'center',
-        paddingTop: 4,
-        color: '#252623'
+        //padding: 5,
+        color: 'green'
     }
 
 });

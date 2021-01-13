@@ -9,14 +9,18 @@ import Chat from '../component/chatComponent';
 import NewMsg from '../component/newMsgComponent';
 import Search from '../component/searchComponent';
 import Freinds from '../component/friendsComponent';
-
+import ActiveFreinds from '../component/activeFriendsComponent';
+import FriendProfile from '../component/friendProfileCompnent';
+import UserProfile from '../component/userProfileCompoent'
 
 
 const msgTopTab = createMaterialTopTabNavigator();
 
 const msgStack = createStackNavigator();
+const friendStack = createStackNavigator();
 
 const rootTab = createBottomTabNavigator();
+
 
 
 function msg_Top_Tab() {
@@ -43,12 +47,46 @@ function msg_Top_Tab() {
                         //borderColor: 'grey',
                     },
                 }}>
-            <msgTopTab.Screen name="AllFreinds" options={{ title: 'Friends' }} component={Freinds} />
-            <msgTopTab.Screen name="Active" component={Tab2} />
+            <msgTopTab.Screen name="AllFreinds" options={{ title: 'Friends' }} component={friend_stack} />
+            <msgTopTab.Screen name="Active" component={ActiveFreinds} />
         </msgTopTab.Navigator>
     );
 }
-
+function friend_stack() {
+    return (
+        <friendStack.Navigator initialRouteName="Friends"
+            screenOptions={{
+                style: {
+                    textAlign: 'center'
+                },
+                headerStyle: {
+                    backgroundColor: '#252623',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    alignSelf: 'center',
+                    marginRight: 50
+                },
+            }}>
+            <friendStack.Screen name="Friends" component={Freinds}
+                options={{ title: 'Friends' }}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <friendStack.Screen name="friendProfile" component={FriendProfile}
+                options={
+                    ({ route }) => (
+                        {
+                            title: route.params.userName,
+                            headerShown: false
+                        }
+                    )}
+            />
+        </friendStack.Navigator>
+    );
+}
 function msg_Stack() {
     return (
         <msgStack.Navigator initialRouteName="msg"
@@ -128,7 +166,7 @@ export function root_Tab() {
         >
             <rootTab.Screen name="Message" component={msg_Stack} options={{ tabBarBadge: 3 }} />
             <rootTab.Screen name="Friends" component={msg_Top_Tab} />
-            <rootTab.Screen name="Profile" component={Tab1} />
+            <rootTab.Screen name="Profile" component={UserProfile} />
             <rootTab.Screen name="Search" component={Search} />
             <rootTab.Screen name="Notification" component={Tab1} options={{ tabBarBadge: 6 }} />
         </rootTab.Navigator>
