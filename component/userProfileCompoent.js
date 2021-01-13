@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     Text, View, TouchableOpacity, StyleSheet,
-    Dimensions, Image, FlatList, SafeAreaView
+    Dimensions, Image, Modal, SafeAreaView, Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, ListItem } from 'react-native-elements';
@@ -16,10 +16,15 @@ import { ScrollView } from 'react-native-gesture-handler';
 export default class UserProfile extends Component {
     constructor(props) {
         super(props);
-
+        this.state = {
+            isModalOpen: false,
+        }
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
-
+    toggleModal() {
+        this.setState({ isModalOpen: !this.state.isModalOpen })
+    }
     render() {
 
 
@@ -34,15 +39,6 @@ export default class UserProfile extends Component {
                         <View style={styles.uNameRow}>
                             <Text style={styles.nameTxt}>Ali Sheikh</Text>
                         </View>
-                        <View style={styles.btn}>
-                            <TouchableOpacity style={styles.btnMsg}>
-                                <Icon name='envelope' size={20} color='white' />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.btnMsg}>
-                                <Icon name='trash' size={20} color='white' />
-                            </TouchableOpacity>
-                        </View>
-
                     </View>
 
                     <View style={styles.followRow}>
@@ -65,7 +61,12 @@ export default class UserProfile extends Component {
                                 <Text style={styles.iconText}>Home</Text>
                             </View>
                             <View style={styles.infoTxtView}>
-                                <Text style={styles.TxtInfo}>Karachi</Text>
+                                <View style={styles.TxtInfo}>
+                                    <Text style={styles.TxtInfoInner}>Karachi</Text>
+                                </View>
+                                <TouchableOpacity style={styles.editBtn}>
+                                    <Icon name='edit' size={35} color='white' />
+                                </TouchableOpacity>
                             </View>
                         </View>
 
@@ -75,22 +76,41 @@ export default class UserProfile extends Component {
                                 <Text style={styles.iconText}>Relation</Text>
                             </View>
                             <View style={styles.infoTxtView}>
-                                <Text style={styles.TxtInfo}>Single</Text>
+                                <View style={styles.TxtInfo}>
+                                    <Text style={styles.TxtInfoInner}>Single </Text>
+                                </View>
+                                <TouchableOpacity style={styles.editBtn}>
+                                    <Icon name='edit' size={35} color='white' />
+                                </TouchableOpacity>
                             </View>
                         </View>
 
                         <View style={styles.infoFieldRow}>
                             <View style={styles.iconView}>
                                 <Icon name='graduation-cap' size={25} color='white' />
-                                <Text style={styles.iconText}>Relation</Text>
+                                <Text style={styles.iconText}>Education</Text>
                             </View>
+
                             <View style={styles.infoTxtView}>
-                                <Text style={styles.TxtInfo}>PAF-KIET</Text>
+                                <View style={styles.TxtInfo}>
+                                    <Text style={styles.TxtInfoInner}>PAF-KIET</Text>
+                                </View>
+                                <TouchableOpacity style={styles.editBtn}
+                                    onPress={() => {this.toggleModal() }}>
+                                    <Icon name='edit' size={35} color='white' />
+                                </TouchableOpacity>
                             </View>
                         </View>
 
                     </View>
                 </ScrollView>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.isModalOpen}
+                    onRequestClose={() => {
+                        Alert.alert('Modal has been closed.');
+                    }} />
             </SafeAreaView>
         );
     }
@@ -135,9 +155,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold'
     },
-    btn: {
-        flexDirection: 'row'
-    },
     followRow: {
         flex: 1,
         flexDirection: 'row',
@@ -179,22 +196,35 @@ const styles = StyleSheet.create({
     infoTxtView: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginBottom: 5
     },
     TxtInfo: {
+        flex: 3,
+    },
+    TxtInfoInner: {
         color: 'white',
         fontSize: 15,
+        alignSelf: 'center'
+    },
+    editBtn: {
+        flex: 1
     },
     iconView: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRightWidth: 1,
+        borderRightColor: 'white',
+        marginBottom: 5
     },
     iconText: {
         color: 'white',
         fontSize: 15,
-        marginLeft: 5
+        marginLeft: 5,
+        marginRight: 10
     },
 });
 

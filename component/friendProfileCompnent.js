@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     Text, View, TouchableOpacity, StyleSheet,
-    Dimensions, Image, FlatList, SafeAreaView
+    Dimensions, Image, SafeAreaView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, ListItem } from 'react-native-elements';
@@ -199,7 +199,8 @@ const styles = StyleSheet.create({
     infoTxtView: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginBottom:5
     },
     TxtInfo: {
         color: 'white',
@@ -209,7 +210,10 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRightWidth:1,
+        borderRightColor:'white',
+        marginBottom:5
     },
     iconText: {
         color: 'white',
