@@ -4,12 +4,8 @@ import {
     Dimensions, Image, SafeAreaView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, ListItem } from 'react-native-elements';
-
-import { msgs } from '../shared/msg'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-import { FloatingAction } from "react-native-floating-action";
 import { ScrollView } from 'react-native-gesture-handler';
 
 

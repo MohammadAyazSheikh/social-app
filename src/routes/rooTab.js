@@ -11,7 +11,8 @@ import Search from '../component/searchComponent';
 import Freinds from '../component/friendsComponent';
 import ActiveFreinds from '../component/activeFriendsComponent';
 import FriendProfile from '../component/friendProfileCompnent';
-import UserProfile from '../component/userProfileCompoent'
+import UserProfile from '../component/userProfileCompoent';
+import Notification from '../component/notificationComponent';
 
 
 const msgTopTab = createMaterialTopTabNavigator();
@@ -168,7 +169,7 @@ export function root_Tab() {
             <rootTab.Screen name="Friends" component={msg_Top_Tab} />
             <rootTab.Screen name="Profile" component={UserProfile} />
             <rootTab.Screen name="Search" component={Search} />
-            <rootTab.Screen name="Notification" component={Tab1} options={{ tabBarBadge: 6 }} />
+            <rootTab.Screen name="Notification" component={Notification} options={{ tabBarBadge: 6 }} />
         </rootTab.Navigator>
     );
 }

@@ -4,9 +4,24 @@ import {
     SafeAreaView, Image, FlatList
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Users } from '../shared/user'
+import { Users } from '../shared/user';
 
-export default class Freinds extends Component {
+import { connect } from 'react-redux';
+import { fetchtUsers } from '../redux/actions/userActions'
+
+
+const mapStateToProps = state => {
+    return {
+        Users: state.Users,
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    fetchDishes: () => dispatch(fetchtUsers()),
+})
+
+//export default 
+class Freinds extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,6 +29,11 @@ export default class Freinds extends Component {
             userSearch: ''
         }
 
+    }
+
+    componentDidMount()
+    {
+       this.props.fetchDishes();
     }
     renderUser = ({ item }) => {
         let uName = item.name.replace(/\s+/g, '').toLocaleLowerCase();
@@ -36,7 +56,7 @@ export default class Freinds extends Component {
                         </View>
                         <View style={styles.btnDltBox}>
                             <TouchableOpacity style={styles.btnDltTouch} >
-                                <Icon name='trash' size={35} color='grey' style={styles.btnDlt} />
+                                <Icon name='envelope' size={32} color='grey' style={styles.btnDlt} />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -68,7 +88,8 @@ export default class Freinds extends Component {
                 </View>
                 <View style={{ flex: 1 }}>
                     <FlatList
-                        data={this.state.Users}
+                        // data={this.state.Users}
+                        data={this.props.Users.users}
                         renderItem={this.renderUser}
                         keyExtractor={item => item.id.toString()}
                     />
@@ -78,6 +99,7 @@ export default class Freinds extends Component {
     }
 }
 
+export default connect(mapStateToProps, mapDispatchToProps)(Freinds);
 
 const styles = StyleSheet.create({
     container: {

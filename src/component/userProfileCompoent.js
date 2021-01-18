@@ -4,13 +4,9 @@ import {
     Dimensions, Image, Modal, SafeAreaView, Alert, TextInput
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, ListItem } from 'react-native-elements';
-
-import { msgs } from '../shared/msg'
+import { ScrollView } from 'react-native-gesture-handler';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-import { FloatingAction } from "react-native-floating-action";
-import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default class UserProfile extends Component {
@@ -79,7 +75,11 @@ export default class UserProfile extends Component {
                             <Text style={styles.nameTxt}>Ali Sheikh</Text>
                         </View>
                     </View>
-
+                    <TouchableOpacity style={styles.btnLogout}
+                        onPress={() => { this.props.navigation.navigate('Home') }}>
+                        <Icon name='sign-out' size={25} color='#252623' style={{ alignSelf: 'center' }} />
+                        <Text style={{ fontWeight: 'bold', fontSize: 20, alignSelf: 'center', marginRight: 1 }}> Log Out</Text>
+                    </TouchableOpacity>
                     <View style={styles.followRow}>
                         <TouchableOpacity View style={styles.followingBox}>
                             <Text style={styles.TxtStyle}>56</Text>
@@ -161,7 +161,8 @@ const styles = StyleSheet.create({
     },
 
     rowDisplay: {
-        height: windowHeight / 100 * 40,
+
+        height: windowHeight / 100 * 45,                //************************ */
         flexDirection: 'column',
         backgroundColor: '#252623',//'#E1E2DF',
         alignItems: 'center',
@@ -178,7 +179,8 @@ const styles = StyleSheet.create({
         height: windowWidth / 100 * 30,
         borderRadius: 100,
         borderColor: 'white',
-        borderWidth: 2
+        borderWidth: 2,
+        alignSelf: 'center'
     },
     uNameRow: {
         alignSelf: 'center',
@@ -188,6 +190,16 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         fontWeight: 'bold'
+    },
+    btnLogout: {
+        flex:0.5,
+        alignSelf: 'center',
+        backgroundColor: 'white',
+        borderRadius: 30,
+        padding: 6,
+        marginBottom: 10,
+        flexDirection: 'row',
+        elevation: 10
     },
     followRow: {
         flex: 1,
@@ -210,13 +222,14 @@ const styles = StyleSheet.create({
         borderLeftWidth: 0.5
     },
     TxtStyle: {
-        marginTop: 5,
+        marginTop: 2,
         color: '#252623',
         fontSize: 15,
         fontWeight: 'bold',
     },
     rowInfo: {
-        height: windowHeight / 100 * 60,
+
+        height: windowHeight / 100 * 55,                    //******************* */
         flexDirection: 'column',
         backgroundColor: '#252623',//'#E1E2DF',
     },

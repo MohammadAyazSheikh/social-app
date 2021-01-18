@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, Button, colors } from 'react-native-elements';
+import { Input} from 'react-native-elements';
 import { Dimensions } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { LinearGradient } from 'expo-linear-gradient'

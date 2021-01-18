@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { _ScrollView } from 'react-native';
 import {
     Text, View, TouchableOpacity, StyleSheet, TextInput,
     SafeAreaView, Image, FlatList
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
 
     },
     btnDltTouch: {
-       // backgroundColor: 'grey',
+        // backgroundColor: 'grey',
         borderRadius: 50,
         alignSelf: 'center',
         width: 20,
