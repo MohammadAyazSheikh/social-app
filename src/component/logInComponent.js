@@ -2,14 +2,27 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
-import { Dimensions } from 'react-native';
+import { Dimensions, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
 import { ScrollView } from 'react-native-gesture-handler';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+import { connect } from 'react-redux';
+import { Login } from '../redux/actions/loginActions'
 
-export default class LogIn extends Component {
+
+const mapStateToProps = state => {
+    return {
+        User: state.User,
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    Login: (email, pass) => dispatch(Login(email, pass)),
+})
+
+class LogIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,16 +33,17 @@ export default class LogIn extends Component {
     }
 
     logInHandle(email, pass) {
+        this.props.Login(email, pass)
+    }
 
-        if (this.state.email && this.state.pass) {
-            alert("LogIn\nEmail: " + email + " Pass: " + pass);
+    componentDidUpdate() {
+        if (this.props.User.success) {
+            this.props.navigation.navigate('RootTab');
         }
-        this.props.navigation.navigate('RootTab');
     }
 
     render() {
 
-        //this.LogInEnable();
         return (
             <View style={styles.containerMain}>
                 <LinearGradient
@@ -37,7 +51,7 @@ export default class LogIn extends Component {
                     style={styles.container}>
                     <ScrollView>
                         <View style={styles.logoRow}>
-                        <Icon style = {styles.logo} name='american-sign-language-interpreting' size={80} color='white' />
+                            <Icon style={styles.logo} name='american-sign-language-interpreting' size={80} color='white' />
                         </View>
                         <View style={styles.InputRow}>
                             <View style={styles.InputItem}>
@@ -63,7 +77,16 @@ export default class LogIn extends Component {
                             <View style={styles.InputItem}>
                                 <TouchableOpacity disabled={!(this.state.pass && this.state.email)}
                                     onPress={() => { { this.logInHandle(this.state.email, this.state.pass) }; }}>
-                                        <Text style={(this.state.pass && this.state.email) ? styles.btnEnbl : styles.btnDis}>Log In</Text>
+                                    {
+                                        this.props.User.isLoading ?
+                                            <View style={styles.btnEnbl}>
+                                                <ActivityIndicator size={27} color="#161730" />
+                                            </View>
+                                            :
+                                            <Text style={(this.state.pass && this.state.email) ? styles.btnEnbl : styles.btnDis}>Log In</Text>
+                                    }
+
+                                    {/* <Text style={(this.state.pass && this.state.email) ? styles.btnEnbl : styles.btnDis}>Log In</Text> */}
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.InputItem}>
@@ -105,6 +128,8 @@ export default class LogIn extends Component {
         );
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
 
 
 const styles = StyleSheet.create({
@@ -149,7 +174,7 @@ const styles = StyleSheet.create({
         width: Math.round((windowWidth / 100) * 80),
         textAlign: "center",
         fontWeight: 'bold',
-        elevation:10
+        elevation: 10
     },
     btnDis: {
         color: '#151823',
@@ -161,7 +186,7 @@ const styles = StyleSheet.create({
         width: Math.round((windowWidth / 100) * 80),
         textAlign: "center",
         fontWeight: 'bold',
-        elevation:10,
+        elevation: 10,
     },
     txt: {
         color: 'grey',
@@ -185,7 +210,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginBottom: 20,
         justifyContent: 'center',
-        elevation:10
+        elevation: 10
     },
     fbBtn: {
         color: 'white',
@@ -203,7 +228,7 @@ const styles = StyleSheet.create({
         width: Math.round((windowWidth / 100) * 80),
         borderRadius: 20,
         justifyContent: 'center',
-        elevation:10
+        elevation: 10
     },
     googleBtn: {
         color: 'white',

@@ -7,7 +7,7 @@ import { user_Reducer } from './reducers/userReducer';
 export const ConfigureStore = () => {
     const store = createStore(
         combineReducers({
-            Users: user_Reducer
+            User: user_Reducer
         }),
         applyMiddleware(thunk, logger)
     );

@@ -1,36 +1,68 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input} from 'react-native-elements';
+import { Input } from 'react-native-elements';
 import { Dimensions } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { LinearGradient } from 'expo-linear-gradient'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default class SignUp extends Component {
+import { connect } from 'react-redux';
+import { Register } from '../redux/actions/signupActions'
+
+
+const mapStateToProps = state => {
+    return {
+        User: state.User,
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    Register: (Fname, Lname, email, pass, dob) => dispatch(Register(Fname, Lname, email, pass, dob)),
+})
+
+
+
+class SignUp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            name: '',
+            Fname: '',
+            Lname: '',
             email: '',
             pass: '',
-            date: new Date(),
+            dob: new Date(),
+            userInfo: this.props.User
         }
         this.handeSubmit = this.handeSubmit.bind(this);
     }
 
-    handeSubmit(name, email, pass, dob) {
-        alert("Submit\n" + "Name: " + name + "\nEmail: " + email + "\nPass: " + pass + "\nDOB: " + dob)
+
+    // componentDidMount() {
+
+    //     setTimeout(() => {
+    //         alert(JSON.stringify(this.props.User))
+    //     }, 2000);
+    // }
+    handeSubmit(Fname, Lname, email, pass, dob) {
+
+        //alert("Submit\n" + "Name" + Fname + " " + Lname + "\nEmail\n" + email + "\nPass: " + pass + "\nDOB: " + dob);
+        this.props.Register(Fname, Lname, email, pass, dob);
     }
 
+
+
+    componentDidUpdate() {
+        if (this.props.User.success == true) {
+            alert('Registration Successfull');
+            this.props.navigation.navigate('RootTab');
+        }
+    }
+    
     render() {
-        //   const {id, name} =  this.props.route.params;
         return (
-
-
-
             <View style={styles.containerMain}>
                 <LinearGradient
                     colors={['#151823', '#343531']}
@@ -42,11 +74,22 @@ export default class SignUp extends Component {
 
                         <View style={styles.InputItem}>
                             <Input
-                                placeholder="Name"
-                                secureTextEntry={true}
+                                placeholder="First Name"
                                 style={{ color: 'white', marginLeft: 20 }}
                                 leftIcon={<Icon name='user' size={24} color='white' />}
-                                onChangeText={value => this.setState({ name: value })}
+                                onChangeText={value => this.setState({ Fname: value })}
+                                disabled={this.props.User.isLoading}
+                            />
+                        </View>
+
+
+                        <View style={styles.InputItem}>
+                            <Input
+                                placeholder="Last Name"
+                                style={{ color: 'white', marginLeft: 20 }}
+                                leftIcon={<Icon name='user' size={24} color='white' />}
+                                onChangeText={value => this.setState({ Lname: value })}
+                                disabled={this.props.User.isLoading}
                             />
                         </View>
                         <View style={styles.InputRow}>
@@ -57,6 +100,7 @@ export default class SignUp extends Component {
                                     }
                                     style={{ color: 'white', marginLeft: 20 }}
                                     onChangeText={value => this.setState({ email: value })}
+                                    disabled={this.props.User.isLoading}
                                 //    errorStyle={{ color: 'red' }}
                                 //    errorMessage='ENTER A VALID ERROR HERE'
                                 />
@@ -68,6 +112,7 @@ export default class SignUp extends Component {
                                     style={{ color: 'white', marginLeft: 20 }}
                                     leftIcon={<Icon name='key' size={24} color='white' />}
                                     onChangeText={value => this.setState({ pass: value })}
+                                    disabled={this.props.User.isLoading}
                                 />
                             </View>
 
@@ -78,7 +123,7 @@ export default class SignUp extends Component {
                                 <View style={styles.date}>
                                     <DatePicker
                                         style={{ width: 200, backgroundColor: 'white' }}
-                                        date={this.state.date}
+                                        date={this.state.dob}
                                         mode="date"
                                         placeholder="select date"
                                         format="YYYY-MM-DD"
@@ -102,15 +147,29 @@ export default class SignUp extends Component {
                                                 fontWeight: 'bold'
                                             },
                                         }}
-                                        onDateChange={(date) => { this.setState({ date: date }); console.log(this.state.date) }}
+                                        onDateChange={(date) => { this.setState({ dob: date }); }}
                                     />
                                 </View>
 
                             </View>
                             <View style={styles.InputItem}>
-                                <TouchableOpacity disabled={!(this.state.date && this.state.email && this.state.pass && this.state.name)}
-                                    onPress={() => { this.handeSubmit(this.state.name, this.state.email, this.state.pass, this.state.date) }}>
-                                    <Text style={(this.state.date && this.state.email && this.state.pass && this.state.name) ? styles.btnEnbl : styles.btnDis}>Sign Up</Text>
+                                <TouchableOpacity
+                                    //disabled={!(this.state.date && this.state.email && this.state.pass && this.state.Fname, this.state.Fname)}
+                                    onPress={() => {
+                                        this.handeSubmit(this.state.Fname, this.state.Lname, this.state.email, this.state.pass, this.state.dob);
+                                    }}
+                                >
+
+                                    {
+                                        this.props.User.isLoading ?
+                                            <View style={styles.btnEnbl}>
+                                                <ActivityIndicator size={27} color="#161730" />
+                                            </View>
+                                            :
+                                            <Text style={(this.state.date && this.state.email && this.state.pass && this.state.Fname, this.state.Lname) ? styles.btnEnbl : styles.btnDis}>Sign Up</Text>
+
+                                    }
+
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.InputItem}>
@@ -149,14 +208,11 @@ export default class SignUp extends Component {
                     </ScrollView>
                 </LinearGradient>
             </View>
-
-            // {/* <Button title="Go To Root" onPress={() => this.props.navigation.navigate('RootTab')} /> */}
-
         );
     }
 }
 
-
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
 const styles = StyleSheet.create({
     containerMain: {
         flex: 1,

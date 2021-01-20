@@ -6,22 +6,21 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Users } from '../shared/user';
 
-import { connect } from 'react-redux';
-import { fetchtUsers } from '../redux/actions/userActions'
+// import { connect } from 'react-redux';
+// import { fetchtUsers } from '../redux/actions/userActions'
 
 
-const mapStateToProps = state => {
-    return {
-        Users: state.Users,
-    }
-}
+// const mapStateToProps = state => {
+//     return {
+//         Users: state.Users,
+//     }
+// }
 
-const mapDispatchToProps = dispatch => ({
-    fetchDishes: () => dispatch(fetchtUsers()),
-})
+// const mapDispatchToProps = dispatch => ({
+//     fetchDishes: () => dispatch(fetchtUsers()),
+// })
 
-//export default 
-class Freinds extends Component {
+export default class Freinds extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,10 +30,9 @@ class Freinds extends Component {
 
     }
 
-    componentDidMount()
-    {
-       this.props.fetchDishes();
-    }
+    // componentDidMount() {
+    //     this.props.fetchDishes();
+    // }
     renderUser = ({ item }) => {
         let uName = item.name.replace(/\s+/g, '').toLocaleLowerCase();
 
@@ -88,8 +86,8 @@ class Freinds extends Component {
                 </View>
                 <View style={{ flex: 1 }}>
                     <FlatList
-                        // data={this.state.Users}
-                        data={this.props.Users.users}
+                        data={this.state.Users}
+                        //data={this.props.Users.users}
                         renderItem={this.renderUser}
                         keyExtractor={item => item.id.toString()}
                     />
@@ -99,7 +97,7 @@ class Freinds extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Freinds);
+// export default connect(mapStateToProps, mapDispatchToProps)(Freinds);
 
 const styles = StyleSheet.create({
     container: {
