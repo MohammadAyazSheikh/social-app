@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
-import { Dimensions } from 'react-native';
+import { Dimensions, Switch } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { LinearGradient } from 'expo-linear-gradient'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 import { connect } from 'react-redux';
-import { Register } from '../redux/actions/signupActions'
-
+import { Register } from '../redux/actions/signupActions';
+import { ClearUser } from '../redux/actions/clearUserAction';
 
 const mapStateToProps = state => {
     return {
@@ -18,9 +18,15 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    Register: (Fname, Lname, email, pass, dob) => dispatch(Register(Fname, Lname, email, pass, dob)),
-})
+const mapDispatchToProps = dispatch => (
+    {
+        Register: (Fname, Lname, email, pass, dob, addr, edu, gender) =>
+            dispatch(Register(Fname, Lname, email, pass, dob, addr, edu, gender)),
+
+        clearUser: () =>
+            dispatch(ClearUser)
+    }
+)
 
 
 
@@ -29,14 +35,19 @@ class SignUp extends Component {
         super(props);
 
         this.state = {
-            Fname: '',
-            Lname: '',
+            fname: '',
+            lname: '',
+            education: '',
+            address: '',
             email: '',
             pass: '',
             dob: new Date(),
-            userInfo: this.props.User
+            // userInfo: this.props.User,
+            genderSwitch: false,
+            // enableSwitch: false,
         }
         this.handeSubmit = this.handeSubmit.bind(this);
+        this.toggleSwitch = this.toggleSwitch.bind(this);
     }
 
 
@@ -46,13 +57,18 @@ class SignUp extends Component {
     //         alert(JSON.stringify(this.props.User))
     //     }, 2000);
     // }
-    handeSubmit(Fname, Lname, email, pass, dob) {
+    handeSubmit(Fname, Lname, email, pass, dob, addr, edu, gender) {
 
         //alert("Submit\n" + "Name" + Fname + " " + Lname + "\nEmail\n" + email + "\nPass: " + pass + "\nDOB: " + dob);
-        this.props.Register(Fname, Lname, email, pass, dob);
+        this.props.Register(Fname, Lname, email, pass, dob, addr, edu, gender);
     }
 
-
+    toggleSwitch() {
+        this.setState({ genderSwitch: !this.state.genderSwitch });
+    }
+    componentDidMount() {
+        this.props.clearUser();
+    }
 
     componentDidUpdate() {
         if (this.props.User.success == true) {
@@ -60,7 +76,7 @@ class SignUp extends Component {
             this.props.navigation.navigate('RootTab');
         }
     }
-    
+
     render() {
         return (
             <View style={styles.containerMain}>
@@ -72,30 +88,70 @@ class SignUp extends Component {
                             <Icon style={styles.logo} name='american-sign-language-interpreting' size={80} color='white' />
                         </View>
 
-                        <View style={styles.InputItem}>
-                            <Input
-                                placeholder="First Name"
-                                style={{ color: 'white', marginLeft: 20 }}
-                                leftIcon={<Icon name='user' size={24} color='white' />}
-                                onChangeText={value => this.setState({ Fname: value })}
-                                disabled={this.props.User.isLoading}
-                            />
-                        </View>
-
-
-                        <View style={styles.InputItem}>
-                            <Input
-                                placeholder="Last Name"
-                                style={{ color: 'white', marginLeft: 20 }}
-                                leftIcon={<Icon name='user' size={24} color='white' />}
-                                onChangeText={value => this.setState({ Lname: value })}
-                                disabled={this.props.User.isLoading}
-                            />
-                        </View>
                         <View style={styles.InputRow}>
                             <View style={styles.InputItem}>
                                 <Input
-                                    placeholder="Email"
+                                    placeholder="First Name"
+                                    style={{ color: 'white', marginLeft: 20 }}
+                                    leftIcon={<Icon name='user' size={24} color='white' />}
+                                    onChangeText={value => this.setState({ fname: value })}
+                                    disabled={this.props.User.isLoading}
+                                />
+                            </View>
+                            <View style={styles.InputItem}>
+                                <Input
+                                    placeholder="Last Name"
+                                    style={{ color: 'white', marginLeft: 20 }}
+                                    leftIcon={<Icon name='user' size={24} color='white' />}
+                                    onChangeText={value => this.setState({ lname: value })}
+                                    disabled={this.props.User.isLoading}
+                                />
+                            </View>
+                            <View style={styles.InputItem}>
+                                <Input
+                                    placeholder="Address"
+                                    style={{ color: 'white', marginLeft: 20 }}
+                                    leftIcon={<Icon name='home' size={24} color='white' />}
+                                    onChangeText={value => this.setState({ address: value })}
+                                    disabled={this.props.User.isLoading}
+                                />
+                            </View>
+                            <View style={styles.InputItem}>
+                                <Input
+                                    placeholder="Education"
+                                    style={{ color: 'white', marginLeft: 20 }}
+                                    leftIcon={<Icon name='graduation-cap' size={24} color='white' />}
+                                    onChangeText={value => this.setState({ education: value })}
+                                    disabled={this.props.User.isLoading}
+                                />
+                            </View>
+                            <View style={{
+                                flexDirection: 'row', borderBottomColor: 'grey',
+                                borderBottomWidth: 1.3, paddingBottom: 5,
+                                width: Math.round((windowWidth / 100) * 85),
+                                marginBottom: 30,
+                                marginTop: 15
+                            }}>
+                                {/* flexDirection: 'row', borderLeftColor:'grey',borderBottomWidth:1  */}
+                                <View style={{ flex: 1 }}>
+                                    <Switch
+                                        trackColor={{ false: "grey", true: "grey" }}
+                                        thumbColor={this.state.enableSwitch ? "skyblue" : "lightpink"}
+                                        ios_backgroundColor="#3e3e3e"
+                                        onValueChange={this.toggleSwitch}
+                                        value={this.state.genderSwitch}
+                                    />
+                                </View>
+                                <View style={{ flex: 1 }}>
+                                    {
+                                        this.state.genderSwitch ? <Text style={styles.toggleTxt}>Male</Text> : <Text style={styles.toggleTxt}>Female</Text>
+                                    }
+                                </View>
+                            </View>
+
+                            <View style={styles.InputItem}>
+                                <Input
+                                    placeholder="Email/Username"
                                     leftIcon={<Icon name='at' size={24} color='white' />
                                     }
                                     style={{ color: 'white', marginLeft: 20 }}
@@ -156,7 +212,8 @@ class SignUp extends Component {
                                 <TouchableOpacity
                                     //disabled={!(this.state.date && this.state.email && this.state.pass && this.state.Fname, this.state.Fname)}
                                     onPress={() => {
-                                        this.handeSubmit(this.state.Fname, this.state.Lname, this.state.email, this.state.pass, this.state.dob);
+                                        this.handeSubmit(this.state.fname, this.state.lname, this.state.email, this.state.pass,
+                                            this.state.dob, this.state.address, this.state.education, this.state.genderSwitch);
                                     }}
                                 >
 
@@ -166,7 +223,8 @@ class SignUp extends Component {
                                                 <ActivityIndicator size={27} color="#161730" />
                                             </View>
                                             :
-                                            <Text style={(this.state.date && this.state.email && this.state.pass && this.state.Fname, this.state.Lname) ? styles.btnEnbl : styles.btnDis}>Sign Up</Text>
+                                            <Text style={(this.state.date && this.state.email && this.state.pass && this.state.fname, this.state.fname,
+                                                this.state.Education, this.state.Address) ? styles.btnEnbl : styles.btnDis}>Sign Up</Text>
 
                                     }
 
@@ -336,6 +394,11 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 25,
         fontWeight: 'bold'
+    },
+    toggleTxt: {
+        color: 'white',
+        fontSize: 20,
+        fontWeight: 'bold',
     }
 
 });

@@ -5,29 +5,48 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+import socketClient from 'socket.io-client';
+import { connect } from 'react-redux';
+import { ClearUser } from '../redux/actions/clearUserAction';
+
+
+// const mapDispatchToProps = dispatch => ({
+//     LogOut: (token) => dispatch(LogOut(token)),
+//     clearUser: () => dispatch(ClearUser)
+// })
+
+var socket;
+
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
+        console.log('before socket');
+        socket = socketClient('http://192.168.0.107:3000');
+        console.log('after socket');
     }
 
+    // componentDidMount() {
+    //     this.props.clearUser();
+    // }
+
     render() {
-        //   const {id, name} =  this.props.route.params;
+
         return (
             <View style={styles.containerMain}>
                 <LinearGradient
-                    colors={['#151823', '#343531']} //  #252623
+                    colors={['#151823', '#343531']}
                     style={styles.container}>
 
                     <View style={styles.logoRow}>
-                        <Icon style = {styles.logo} name='american-sign-language-interpreting' size={80} color='white' />
+                        <Icon style={styles.logo} name='american-sign-language-interpreting' size={80} color='white' />
                         <Text style={styles.logoText}>Rabtay</Text>
                     </View>
 
                     <View style={styles.InputRow}>
                         <View style={styles.InputItem}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('LogIn')} >
-                                    <Text style={styles.btn}>Log In</Text>
+                                <Text style={styles.btn}>Log In</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.InputItem}>
@@ -36,20 +55,17 @@ export default class Home extends Component {
                         </View>
                         <View style={styles.InputItem}>
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('SignUp')}>
-                            <Text style={styles.btn}>Register</Text>
+                                <Text style={styles.btn}>Register</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </LinearGradient>
-
             </View >
-
-            // {/* <Button title="Go To Root" onPress={() => this.props.navigation.navigate('RootTab')} /> */}
-
         );
     }
 }
 
+// export default connect(mapDispatchToProps)(Home);
 
 const styles = StyleSheet.create({
     containerMain: {
@@ -66,8 +82,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor:'grey',
-        
+        shadowColor: 'grey',
+
     },
     logoText: {
         fontSize: Math.round((windowWidth / 100) * 10),
@@ -99,7 +115,7 @@ const styles = StyleSheet.create({
         width: Math.round((windowWidth / 100) * 80),
         textAlign: "center",
         fontWeight: 'bold',
-        elevation:10
+        elevation: 10
     },
     txt: {
         color: 'white',

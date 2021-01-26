@@ -9,7 +9,8 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 import { connect } from 'react-redux';
-import { Login } from '../redux/actions/loginActions'
+import { Login } from '../redux/actions/loginActions';
+import {ClearUser} from '../redux/actions/clearUserAction';
 
 
 const mapStateToProps = state => {
@@ -20,6 +21,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     Login: (email, pass) => dispatch(Login(email, pass)),
+    clearUser:() => dispatch(ClearUser)
 })
 
 class LogIn extends Component {
@@ -34,6 +36,11 @@ class LogIn extends Component {
 
     logInHandle(email, pass) {
         this.props.Login(email, pass)
+    }
+
+    componentDidMount()
+    {
+        this.props.clearUser();
     }
 
     componentDidUpdate() {
@@ -61,6 +68,7 @@ class LogIn extends Component {
                                     }
                                     style={{ color: 'white', marginLeft: 20 }}
                                     onChangeText={value => { this.setState({ email: value }); }}
+                                    disabled={this.props.User.isLoading}
                                 //    errorStyle={{ color: 'red' }}
                                 //    errorMessage='ENTER A VALID ERROR HERE'
                                 />
@@ -72,6 +80,7 @@ class LogIn extends Component {
                                     style={{ color: 'white', marginLeft: 20 }}
                                     leftIcon={<Icon name='key' size={24} color='white' />}
                                     onChangeText={value => { this.setState({ pass: value }); }}
+                                    disabled={this.props.User.isLoading}
                                 />
                             </View>
                             <View style={styles.InputItem}>

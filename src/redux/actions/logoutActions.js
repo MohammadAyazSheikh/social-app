@@ -16,24 +16,40 @@ export const logOutLoading = () => ({
 });
 
 
-export const LogOut = () => (dispatch) => {
+export const LogOut = (token) => (dispatch) => {
 
-    return fetch('http://192.168.0.107:3000/users/login')    //--------------start step 3.2 fetch----------------
+    console.log("***********************" + token)
+    dispatch(logOutLoading());
+
+    return fetch('http://192.168.0.107:3000/users/logout',
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + token
+            },
+            credentials: "same-origin"
+        }
+    )
         .then(response => {
             if (response.ok) {
                 return response;
             }
             else {
-                var error = new Error('Error ' + response.status + ': ' + response.statusText); //error is dishes nt found
+                var error = new Error('Error ' + response.status + ': ' + response.statusText);
                 error.response = response;
                 throw error;
             }
         },
             error => {
-                var errmess = new Error(error.message);  //error if we face problem to connect server
+                var errmess = new Error(error.message);
                 throw errmess;
             })
         .then((res) => res.json())
-        .then(data => console.log(data))
-        .catch(error => console.log(error)); //end 0f step 3.2 fetcg----------
+        .then(data => dispatch(logOutSucces(data)))
+        .catch(error => {
+            console.log(error);
+            alert(error.message);
+            dispatch(logOutFailed());
+        });
 }

@@ -1,4 +1,4 @@
-export const ADD_USERS = 'ADD_USERS';
+
 
 export const SIGNUP_SUCCES = 'SIGNUP_SUCCES';
 export const SIGNUP_FAILED = 'SIGNUP_FAILED';
@@ -11,4 +11,10 @@ export const LOGIN_LOADING = 'LOGIN_LOADING';
 export const LOGOUT_SUCCES = 'LOGOUT_SUCCES';
 export const LOGOUT_FAILED = 'LOGOUT_FAILED';
 export const LOGOUT_LOADING = 'LOGOUT_LOADING';
+
+export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
+export const SEARCH_LOADING = 'SEARCH_LOADING';
+export const SEARCH_FAILED = 'SEARCH_FAILED';
+
+export const CLEAR_USER_STATS = 'CLEAR_USER_STATS';
 

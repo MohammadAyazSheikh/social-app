@@ -1,15 +1,32 @@
 import React, { Component } from 'react';
 import {
     Text, View, TouchableOpacity, StyleSheet, TouchableHighlight,
-    Dimensions, Image, Modal, SafeAreaView, Alert, TextInput
+    Dimensions, Image, Modal, SafeAreaView, Alert, TextInput, ActivityIndicator
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScrollView } from 'react-native-gesture-handler';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+import { connect } from 'react-redux';
+import { LogOut } from '../redux/actions/logoutActions';
+import { ClearUser } from '../redux/actions/clearUserAction';
 
-export default class UserProfile extends Component {
+
+const mapStateToProps = state => {
+    return {
+        User: state.User,
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    LogOut: (token) => dispatch(LogOut(token)),
+    clearUser: () => dispatch(ClearUser())
+})
+
+
+//export default 
+class UserProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,6 +39,30 @@ export default class UserProfile extends Component {
 
     toggleModal() {
         this.setState({ isModalOpen: !this.state.isModalOpen })
+    }
+
+
+
+
+
+    componentDidMount() {
+        //this.props.clearUser();
+        setTimeout(() => {
+            alert(JSON.stringify(this.props.User.user))
+        }, 2000);
+    }
+
+    componentWillUnmount()
+    {
+        // if (this.props.User.logOutSuccess) {
+        //    this.props.clearUser();
+        // }
+    }
+
+    componentDidUpdate() {
+        if (this.props.User.logOutSuccess) {
+            this.props.navigation.navigate('Home');
+        }
     }
     render() {
 
@@ -72,13 +113,28 @@ export default class UserProfile extends Component {
                             style={styles.img}
                         />
                         <View style={styles.uNameRow}>
-                            <Text style={styles.nameTxt}>Ali Sheikh</Text>
+                            <Text style={styles.nameTxt}>{this.props.User.user.fname + " " + this.props.User.user.lname}</Text>
                         </View>
                     </View>
                     <TouchableOpacity style={styles.btnLogout}
-                        onPress={() => { this.props.navigation.navigate('Home') }}>
-                        <Icon name='sign-out' size={25} color='#252623' style={{ alignSelf: 'center' }} />
-                        <Text style={{ fontWeight: 'bold', fontSize: 20, alignSelf: 'center', marginRight: 1 }}> Log Out</Text>
+                        onPress={() => { this.props.LogOut(this.props.User.token) }}>
+
+
+
+                        {
+                            //
+                            this.props.User.isLoading ?
+                                <View style={{ alignSelf: 'center', flexDirection: 'row', }}>
+                                    <ActivityIndicator size={27} color="#161730" />
+                                </View>
+                                :
+                                <View style={{ alignSelf: 'center', flexDirection: 'row', }}>
+                                    <Icon name='sign-out' size={25} color='#252623' style={{ alignSelf: 'center' }} />
+                                    <Text style={{ fontWeight: 'bold', fontSize: 20, alignSelf: 'center', marginRight: 1 }}> Log Out</Text>
+                                </View>
+                        }
+
+
                     </TouchableOpacity>
                     <View style={styles.followRow}>
                         <TouchableOpacity View style={styles.followingBox}>
@@ -93,15 +149,19 @@ export default class UserProfile extends Component {
                     </View>
                 </View>
                 <ScrollView>
+
+
+
+
                     <View style={styles.rowInfo}>
                         <View style={styles.infoFieldRow}>
                             <View style={styles.iconView}>
                                 <Icon name='home' size={25} color='white' />
-                                <Text style={styles.iconText}>Home</Text>
+                                <Text style={styles.iconText}>Address</Text>
                             </View>
                             <View style={styles.infoTxtView}>
                                 <View style={styles.TxtInfo}>
-                                    <Text style={styles.TxtInfoInner}>Karachi</Text>
+                                    <Text style={styles.TxtInfoInner}>{this.props.User.user.addr}</Text>
                                 </View>
                                 <TouchableOpacity style={styles.editBtn}
                                     onPress={() => { this.toggleModal(); this.setState({ editName: 'City' }) }}>
@@ -134,7 +194,28 @@ export default class UserProfile extends Component {
 
                             <View style={styles.infoTxtView}>
                                 <View style={styles.TxtInfo}>
-                                    <Text style={styles.TxtInfoInner}>PAF-KIET</Text>
+                                    <Text style={styles.TxtInfoInner}>{this.props.User.user.edu}</Text>
+                                </View>
+                                <TouchableOpacity style={styles.editBtn}
+                                    onPress={() => { this.toggleModal(); this.setState({ editName: 'Education' }) }}>
+                                    <Icon name='edit' size={35} color='white' />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
+
+                        <View style={styles.infoFieldRow}>
+                            <View style={styles.iconView}>
+                                <Icon name='graduation-cap' size={25} color='white' />
+                                <Text style={styles.iconText}>Gender</Text>
+                            </View>
+
+                            <View style={styles.infoTxtView}>
+                                <View style={styles.TxtInfo}>
+                                    {
+                                        this.props.User.user.gender ? <Text style={styles.TxtInfoInner}>Male</Text>
+                                            : <Text style={styles.TxtInfoInner}>Female</Text>
+                                    }
                                 </View>
                                 <TouchableOpacity style={styles.editBtn}
                                     onPress={() => { this.toggleModal(); this.setState({ editName: 'Education' }) }}>
@@ -150,6 +231,8 @@ export default class UserProfile extends Component {
     }
 }
 
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
 
 const styles = StyleSheet.create({
     container: {
@@ -192,7 +275,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     btnLogout: {
-        flex:0.5,
+        flex: 0.5,
         alignSelf: 'center',
         backgroundColor: 'white',
         borderRadius: 30,

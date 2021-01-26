@@ -2,39 +2,33 @@ import * as ActionTypes from '../actionTypes';
 
 
 
-export const signUpSucces = (userInfo) => ({
-  type: ActionTypes.SIGNUP_SUCCES,
-  payload: userInfo
+export const searchSuccess = (users) => ({
+  type: ActionTypes.SEARCH_SUCCESS,
+  payload: users
 });
 
-export const signUpFailed = (err) => ({
-  type: ActionTypes.SIGNUP_FAILED,
+export const searchFailed = (err) => ({
+  type: ActionTypes.SEARCH_FAILED,
   payload: err
 });
 
-export const signUpLoading = () => ({
-  type: ActionTypes.SIGNUP_LOADING,
+export const searchLoading = () => ({
+  type: ActionTypes.SEARCH_FAILED,
 });
 
 
 
-export const Register = (fname, lname, email, pass, dob, addr, edu, gender) => (dispatch) => {
+export const Register = (uname) => (dispatch) => {
 
   const userData = {
-    fname: fname,
-    lname: lname,
-    username: email,
-    password: pass,
-    dob: dob,
-    addr: addr,
-    edu: edu,
-    gender: gender
+    uname: uname
   }
   console.log(JSON.stringify(userData));
-  dispatch(signUpLoading());
+
+  dispatch(searchLoading);
 
 
-  return fetch('http://192.168.0.107:3000/users/signup',
+  return fetch('http://192.168.0.107:3000/users',
     {
       method: "POST",
       body: JSON.stringify(userData),
@@ -62,15 +56,15 @@ export const Register = (fname, lname, email, pass, dob, addr, edu, gender) => (
     .then(
       data => {
         //console.log("\n***response**\n\n"+data)
-        dispatch(signUpSucces(data))
+        dispatch(searchSuccess(data))
         //setTimeout(() =>dispatch(signUpSucces(data)),3000) 
       }
     )
     .catch(
       error => {
         console.log('post Signup consolog Error', error.message);
-        alert('Your signup req could not be posted\nError: ' + error.message);
-        dispatch(signUpFailed(error.message))
+        alert('Search Error\nError: ' + error.message);
+        dispatch(searchFailed(error.message));
       }
     );
 }
