@@ -10,7 +10,7 @@ const windowHeight = Dimensions.get('window').height;
 
 import { connect } from 'react-redux';
 import { LogOut } from '../redux/actions/logoutActions';
-import { ClearUser } from '../redux/actions/clearUserAction';
+
 
 
 const mapStateToProps = state => {
@@ -21,7 +21,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     LogOut: (token) => dispatch(LogOut(token)),
-    clearUser: () => dispatch(ClearUser())
 })
 
 
@@ -45,19 +44,12 @@ class UserProfile extends Component {
 
 
 
-    componentDidMount() {
-        //this.props.clearUser();
-        setTimeout(() => {
-            alert(JSON.stringify(this.props.User.user))
-        }, 2000);
-    }
+    // componentDidMount() {
+    //     setTimeout(() => {
+    //         alert(JSON.stringify(this.props.User.user))
+    //     }, 2000);
+    // }
 
-    componentWillUnmount()
-    {
-        // if (this.props.User.logOutSuccess) {
-        //    this.props.clearUser();
-        // }
-    }
 
     componentDidUpdate() {
         if (this.props.User.logOutSuccess) {
@@ -113,14 +105,11 @@ class UserProfile extends Component {
                             style={styles.img}
                         />
                         <View style={styles.uNameRow}>
-                            <Text style={styles.nameTxt}>{this.props.User.user.fname + " " + this.props.User.user.lname}</Text>
+                            <Text style={styles.nameTxt}>{this.props.User.user && this.props.User.user.fname + " " + this.props.User.user.lname}</Text>
                         </View>
                     </View>
                     <TouchableOpacity style={styles.btnLogout}
                         onPress={() => { this.props.LogOut(this.props.User.token) }}>
-
-
-
                         {
                             //
                             this.props.User.isLoading ?
@@ -133,8 +122,6 @@ class UserProfile extends Component {
                                     <Text style={{ fontWeight: 'bold', fontSize: 20, alignSelf: 'center', marginRight: 1 }}> Log Out</Text>
                                 </View>
                         }
-
-
                     </TouchableOpacity>
                     <View style={styles.followRow}>
                         <TouchableOpacity View style={styles.followingBox}>
@@ -161,7 +148,7 @@ class UserProfile extends Component {
                             </View>
                             <View style={styles.infoTxtView}>
                                 <View style={styles.TxtInfo}>
-                                    <Text style={styles.TxtInfoInner}>{this.props.User.user.addr}</Text>
+                                    <Text style={styles.TxtInfoInner}>{this.props.User.user && this.props.User.user.addr}</Text>
                                 </View>
                                 <TouchableOpacity style={styles.editBtn}
                                     onPress={() => { this.toggleModal(); this.setState({ editName: 'City' }) }}>
@@ -194,7 +181,7 @@ class UserProfile extends Component {
 
                             <View style={styles.infoTxtView}>
                                 <View style={styles.TxtInfo}>
-                                    <Text style={styles.TxtInfoInner}>{this.props.User.user.edu}</Text>
+                                    <Text style={styles.TxtInfoInner}>{this.props.User.user && this.props.User.user.edu}</Text>
                                 </View>
                                 <TouchableOpacity style={styles.editBtn}
                                     onPress={() => { this.toggleModal(); this.setState({ editName: 'Education' }) }}>
@@ -213,7 +200,7 @@ class UserProfile extends Component {
                             <View style={styles.infoTxtView}>
                                 <View style={styles.TxtInfo}>
                                     {
-                                        this.props.User.user.gender ? <Text style={styles.TxtInfoInner}>Male</Text>
+                                        this.props.User.user && this.props.User.user.gender ? <Text style={styles.TxtInfoInner}>Male</Text>
                                             : <Text style={styles.TxtInfoInner}>Female</Text>
                                     }
                                 </View>

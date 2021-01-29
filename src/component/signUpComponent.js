@@ -24,7 +24,7 @@ const mapDispatchToProps = dispatch => (
             dispatch(Register(Fname, Lname, email, pass, dob, addr, edu, gender)),
 
         clearUser: () =>
-            dispatch(ClearUser)
+            dispatch(ClearUser())
     }
 )
 

@@ -18,17 +18,19 @@ export const searchLoading = () => ({
 
 
 
-export const Register = (uname) => (dispatch) => {
+export const searchAction = (uname, token) => (dispatch) => {
 
   const userData = {
-    uname: uname
+    uname: uname,
+    token: token
   }
   console.log(JSON.stringify(userData));
 
-  dispatch(searchLoading);
+  dispatch(searchLoading());
 
+  //   setTimeout(()=>{dispatch(searchSuccess(Users))},3000)
 
-  return fetch('http://192.168.0.107:3000/users',
+  return fetch('http://192.168.0.108:3000/users',
     {
       method: "POST",
       body: JSON.stringify(userData),
@@ -64,7 +66,7 @@ export const Register = (uname) => (dispatch) => {
       error => {
         console.log('post Signup consolog Error', error.message);
         alert('Search Error\nError: ' + error.message);
-        dispatch(searchFailed(error.message));
+        dispatch(searchFailed("error in searching"));
       }
     );
 }

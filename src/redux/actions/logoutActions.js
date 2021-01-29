@@ -21,7 +21,7 @@ export const LogOut = (token) => (dispatch) => {
     console.log("***********************" + token)
     dispatch(logOutLoading());
 
-    return fetch('http://192.168.0.107:3000/users/logout',
+    return fetch('http://192.168.0.108:3000/users/logout',
         {
             method: "GET",
             headers: {

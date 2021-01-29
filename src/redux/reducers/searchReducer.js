@@ -1,6 +1,6 @@
 import * as ActionTypes from '../actionTypes';
 
-export const Auth_Reducer = (state = { searchSuccess: false, isLoading: false, errMess: null, success: false, users: null, token: null }, action) => {
+export const Search_Reducer = (state = { searchSuccess: false, isLoading: false, errMess: null, success: false, users: null }, action) => {
 
 
     switch (action.type) {
@@ -11,18 +11,18 @@ export const Auth_Reducer = (state = { searchSuccess: false, isLoading: false, e
                 searchSuccess: true,
                 errMess: null,
                 success: true,
-                users: action.payload.users,
-                token: action.payload.token
+                users: action.payload,
+               
             };
         case ActionTypes.SEARCH_FAILED:
             return {
                 ...state,
                 isLoading: false,
                 searchSuccess: false,
-                errMess: action.payload.errMess,
+                errMess: action.payload,
                 success: false,
                 users: null,
-                token: action.payload.token
+                
             };
         case ActionTypes.SEARCH_LOADING:
             return {
@@ -32,7 +32,7 @@ export const Auth_Reducer = (state = { searchSuccess: false, isLoading: false, e
                 errMess: null,
                 success: false,
                 users: null,
-                token: action.payload.token
+               
             };
         default:
             return state;

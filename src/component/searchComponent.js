@@ -1,27 +1,49 @@
 import React, { Component } from 'react';
 import {
     Text, View, TouchableOpacity, StyleSheet, TextInput,
-    SafeAreaView, Image, FlatList
+    SafeAreaView, Image, FlatList, ActivityIndicator
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Users } from '../shared/user'
+import { connect } from 'react-redux';
+import { searchAction, } from '../redux/actions/searchActions';
 
-export default class Search extends Component {
+
+
+const mapStateToProps = state => {
+    return {
+        User: state.User,
+        searchedUsers: state.searchedUsers
+    }
+}
+
+
+const mapDispatchToProps = dispatch => (
+    {
+        searchUsers: (user, token) => dispatch(searchAction(user, token))
+    }
+)
+
+//export default 
+class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
             Users: Users,
             userSearch: ''
         }
-
     }
+
+
+
     renderUser = ({ item }) => {
-        let uName = item.name.replace(/\s+/g, '').toLocaleLowerCase();
+      
 
-        if (uName.includes(this.state.userSearch)) {
-
+         
+        if (!this.props.searchedUsers.isLoading && this.state.userSearch != '') {
             return (
-                <TouchableOpacity onPress={() => { this.props.navigation.navigate('Chat', { userName: item.name }) }}>
+
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate('Chat', { userName: item.fname + " " + item.lname }) }}>
                     <View style={styles.rowUser}>
                         <View style={styles.imgBox}>
                             <Image
@@ -31,7 +53,7 @@ export default class Search extends Component {
                         </View>
                         <View style={styles.nameBox}>
                             <View>
-                                <Text style={styles.name}>{item.name}</Text>
+                                <Text style={styles.name}>{item.fname + " " + item.lname}</Text>
                             </View>
                         </View>
                         <View style={styles.btnDltBox}>
@@ -42,12 +64,17 @@ export default class Search extends Component {
 
                     </View>
                 </TouchableOpacity>
+
             );
         }
         else {
-            return (<View></View>)
-        }
 
+            return (
+                <View style={{ alignSelf: 'center', flexDirection: 'row', marginTop:50}}>
+                    <ActivityIndicator size={27} color="#161730" />
+                </View>
+            );
+        }
     }
 
 
@@ -57,10 +84,14 @@ export default class Search extends Component {
                 <View style={styles.row}>
                     <View style={styles.txtInputView}>
                         <TextInput placeholder='search' style={styles.txtInput}
-                            onChangeText={(value) => {
-                                let str = value.replace(/\s+/g, '').toLocaleLowerCase();
-                                this.setState({ userSearch: str });
-                            }}
+                            onChangeText={
+                                (value) => {
+                                    let str = value.replace(/\s+/g, '').toLocaleLowerCase();
+
+                                    this.props.searchUsers(str, this.props.User.token);
+
+                                    this.setState({ userSearch: str });
+                                }}
                             placeholderTextColor='white' />
                     </View>
                     <View style={styles.icon}>
@@ -70,20 +101,18 @@ export default class Search extends Component {
                 <View style={{ flex: 1 }}>
                     {
                         this.state.userSearch ? <FlatList
-                            data={this.state.Users}
+                            data={this.props.searchedUsers.users}
                             renderItem={this.renderUser}
-                            keyExtractor={item => item.id.toString()}
+                            keyExtractor={item => item._id.toString()}
                         /> : <Text></Text>
                     }
-
-
-
                 </View>
             </SafeAreaView>
         );
     }
 }
 
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
 
 const styles = StyleSheet.create({
     container: {

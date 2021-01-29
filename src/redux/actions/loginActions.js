@@ -1,5 +1,7 @@
 import * as ActionTypes from '../actionTypes';
 
+import serverUrl from '../../config';
+
 export const LogInSucces = (userInfo) => ({
     type: ActionTypes.LOGIN_SUCCES,
     payload: userInfo
@@ -25,7 +27,7 @@ export const Login = (email, pass) => (dispatch) => {
     dispatch(LogInLoading());
 
 
-    return fetch('http://192.168.0.107:3000/users/login',
+    return fetch('http://192.168.0.108:3000/users/login',
         {
             method: "POST",
             body: JSON.stringify(userData),

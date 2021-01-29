@@ -1,4 +1,4 @@
 import * as ActionTypes from '../actionTypes';
-export const ClearUser = (userInfo) => ({
+export const ClearUser = () => ({
     type: ActionTypes.CLEAR_USER_STATS,
 });
