@@ -1,12 +1,10 @@
-
 import React, { Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LogIn from './logInComponent';
 import SignUp from './signUpComponent'
 import Home from './homeComponent';
-import { Text, View, Button } from 'react-native';
-import {root_Tab} from '../routes/rooTab';
+import { root_Tab } from '../routes/rooTab';
 
 const rootStack = createStackNavigator();
 
@@ -51,3 +49,4 @@ export default function Main() {
     </NavigationContainer>
   );
 }
+

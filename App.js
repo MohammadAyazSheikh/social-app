@@ -3,8 +3,10 @@ import { StyleSheet, ActivityIndicator } from 'react-native';
 import Main from './src/component/mainComponent';
 import { Provider } from 'react-redux';
 import { ConfigureStore } from './src/redux/configureStore';
-import { View } from 'react-native';
+import { connectServer } from './src/socketWork/socketConnection';
 const store = ConfigureStore();
+
+
 
 export default function App() {
   return (

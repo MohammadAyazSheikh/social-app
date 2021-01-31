@@ -30,12 +30,13 @@ export const searchAction = (uname, token) => (dispatch) => {
 
   //   setTimeout(()=>{dispatch(searchSuccess(Users))},3000)
 
-  return fetch('http://192.168.0.108:3000/users',
+  return fetch('http://192.168.0.107:3000/users',
     {
       method: "POST",
       body: JSON.stringify(userData),
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": 'Bearer ' + token
       },
       credentials: "same-origin"
     }

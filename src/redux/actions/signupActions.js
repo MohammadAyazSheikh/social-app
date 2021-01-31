@@ -34,7 +34,7 @@ export const Register = (fname, lname, email, pass, dob, addr, edu, gender) => (
   dispatch(signUpLoading());
 
 
-  return fetch('http://192.168.0.108:3000/users/signup',
+  return fetch('http://192.168.0.107:3000/users/signup',
     {
       method: "POST",
       body: JSON.stringify(userData),

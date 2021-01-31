@@ -4,46 +4,77 @@ import {
     SafeAreaView, Image, FlatList, ActivityIndicator
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Users } from '../shared/user'
-import { connect } from 'react-redux';
-import { searchAction, } from '../redux/actions/searchActions';
 
+import { connect } from 'react-redux';
+import { searchAction } from '../redux/actions/searchActions';
+import { followSendAction, getSentReqAction } from '../redux/actions/friendRequestActions';
 
 
 const mapStateToProps = state => {
     return {
         User: state.User,
-        searchedUsers: state.searchedUsers
+        searchedUsers: state.searchedUsers,
+        followSend: state.followSend,
+        sentReqst: state.sentReqst,
     }
 }
 
 
 const mapDispatchToProps = dispatch => (
     {
-        searchUsers: (user, token) => dispatch(searchAction(user, token))
+        searchUsers: (user, token) => dispatch(searchAction(user, token)),
+        followSendAct: (uId, token) => dispatch(followSendAction(uId, token)),
+        getSentReqst: (token) => dispatch(getSentReqAction(token))
     }
 )
 
-//export default 
+
 class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Users: Users,
-            userSearch: ''
+            userSearch: '',
+            // uId: '',
+            sentUids: []
+
         }
+        this.handle = this.handle.bind(this);
     }
 
 
+    componentDidMount() {
+        this.props.getSentReqst(this.props.User.token);
+
+        setTimeout(
+            () => {
+                let ids = [];
+                this.props.sentReqst.reqst.map(item => {
+                    ids.push(item.sendTo);
+                })
+
+                this.setState({ sentUids: ids });
+                //alert(this.state.sentUids);
+            },
+            5000
+        )
+    }
+    handle(uId, token) {
+        this.props.followSendAct(uId, token);
+        let ids = this.state.sentUids;
+        ids.push(uId)
+        this.setState({ sentUids: ids })
+        //alert('uid: ' + uId + "\ntoken: " + token)
+    }
 
     renderUser = ({ item }) => {
-      
 
-         
+        let flag = this.state.sentUids.includes(item._id);
+
+        let iconName = flag ? 'user-times' : 'user-plus';
+
         if (!this.props.searchedUsers.isLoading && this.state.userSearch != '') {
             return (
-
-                <TouchableOpacity onPress={() => { this.props.navigation.navigate('Chat', { userName: item.fname + " " + item.lname }) }}>
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate('friendProfileScreen', { userInfo: item }) }}>
                     <View style={styles.rowUser}>
                         <View style={styles.imgBox}>
                             <Image
@@ -57,8 +88,8 @@ class Search extends Component {
                             </View>
                         </View>
                         <View style={styles.btnDltBox}>
-                            <TouchableOpacity style={styles.btnDltTouch} >
-                                <Icon name='user-plus' size={30} color='grey' style={styles.btnDlt} />
+                            <TouchableOpacity style={styles.btnDltTouch} onPress={() => this.handle(item._id, this.props.User.token)}>
+                                <Icon name={iconName} size={30} color='grey' style={styles.btnDlt} />
                             </TouchableOpacity>
                         </View>
 
@@ -70,7 +101,7 @@ class Search extends Component {
         else {
 
             return (
-                <View style={{ alignSelf: 'center', flexDirection: 'row', marginTop:50}}>
+                <View style={{ alignSelf: 'center', flexDirection: 'row', marginTop: 50 }}>
                     <ActivityIndicator size={27} color="#161730" />
                 </View>
             );

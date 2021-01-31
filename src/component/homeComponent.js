@@ -5,30 +5,28 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-import socketClient from 'socket.io-client';
 import { connect } from 'react-redux';
 import { ClearUser } from '../redux/actions/clearUserAction';
 
 
-// const mapDispatchToProps = dispatch => ({
-//     LogOut: (token) => dispatch(LogOut(token)),
-//     clearUser: () => dispatch(ClearUser)
-// })
-
-var socket;
+const mapDispatchToProps = dispatch => ({
+    clearUser: () => dispatch(ClearUser)
+})
 
 
-export default class Home extends Component {
+
+
+
+//export default 
+class Home extends Component {
     constructor(props) {
         super(props);
-        console.log('before socket');
-        socket = socketClient('http://192.168.0.107:3000');
-        console.log('after socket');
     }
 
-    // componentDidMount() {
-    //     this.props.clearUser();
-    // }
+    componentDidMount() {
+        this.props.clearUser();
+     
+    }
 
     render() {
 
@@ -65,7 +63,7 @@ export default class Home extends Component {
     }
 }
 
-// export default connect(mapDispatchToProps)(Home);
+export default connect(null,mapDispatchToProps)(Home);
 
 const styles = StyleSheet.create({
     containerMain: {

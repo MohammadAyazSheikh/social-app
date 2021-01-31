@@ -10,8 +10,8 @@ const windowHeight = Dimensions.get('window').height;
 
 import { connect } from 'react-redux';
 import { Login } from '../redux/actions/loginActions';
-import {ClearUser} from '../redux/actions/clearUserAction';
-
+import { ClearUser } from '../redux/actions/clearUserAction';
+import { socket } from '../socketWork/socketConnection'
 
 const mapStateToProps = state => {
     return {
@@ -21,7 +21,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     Login: (email, pass) => dispatch(Login(email, pass)),
-    clearUser:() => dispatch(ClearUser)
+    clearUser: () => dispatch(ClearUser)
 })
 
 class LogIn extends Component {
@@ -38,11 +38,18 @@ class LogIn extends Component {
         this.props.Login(email, pass)
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         this.props.clearUser();
+        socket.emit('test', 'client sending data');
+        socket.on('test', (data) => {
+           alert("From server "+data)
+        })
     }
 
+    componentWillUnmount()
+    {
+        socket.off('test');
+    }
     componentDidUpdate() {
         if (this.props.User.success) {
             this.props.navigation.navigate('RootTab');

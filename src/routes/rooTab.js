@@ -1,128 +1,15 @@
-import React, { Component } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Text, View, Button } from 'react-native';
-import Message from '../component/messageComponent';
-import Chat from '../component/chatComponent';
-import NewMsg from '../component/newMsgComponent';
 import Search from '../component/searchComponent';
-import Freinds from '../component/friendsComponent';
-import ActiveFreinds from '../component/activeFriendsComponent';
-import FriendProfile from '../component/friendProfileCompnent';
 import UserProfile from '../component/userProfileCompoent';
 import Notification from '../component/notificationComponent';
-
-
-const msgTopTab = createMaterialTopTabNavigator();
-
-const msgStack = createStackNavigator();
-const friendStack = createStackNavigator();
+import msg_Stack from './messageStack';
+import Friends_Top_Tab from './friendTopTab';
+import search_Stack from './serachStack';
 
 const rootTab = createBottomTabNavigator();
 
-
-
-function msg_Top_Tab() {
-    return (
-        <msgTopTab.Navigator initialRouteName='AllFreinds'
-
-            tabBarOptions={
-                {
-                    labelStyle: {
-                        fontSize: 18,
-                    },
-                    // tabStyle: {
-                    //     width: 100,
-                    // },
-                    activeTintColor: 'white',
-                    inactiveTintColor: 'grey',
-                    style: {
-                        backgroundColor: '#252623',
-                        marginTop: 25,
-                    },
-                    indicatorStyle: {
-                        borderBottomColor: 'grey',
-                        borderBottomWidth: 4,
-                        //borderColor: 'grey',
-                    },
-                }}>
-            <msgTopTab.Screen name="AllFreinds" options={{ title: 'Friends' }} component={friend_stack} />
-            <msgTopTab.Screen name="Active" component={ActiveFreinds} />
-        </msgTopTab.Navigator>
-    );
-}
-function friend_stack() {
-    return (
-        <friendStack.Navigator initialRouteName="Friends"
-            screenOptions={{
-                style: {
-                    textAlign: 'center'
-                },
-                headerStyle: {
-                    backgroundColor: '#252623',
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                    fontWeight: 'bold',
-                    alignSelf: 'center',
-                    marginRight: 50
-                },
-            }}>
-            <friendStack.Screen name="Friends" component={Freinds}
-                options={{ title: 'Friends' }}
-                options={{
-                    headerShown: false
-                }}
-            />
-            <friendStack.Screen name="friendProfile" component={FriendProfile}
-                options={
-                    ({ route }) => (
-                        {
-                            title: route.params.userName,
-                            headerShown: false
-                        }
-                    )}
-            />
-        </friendStack.Navigator>
-    );
-}
-function msg_Stack() {
-    return (
-        <msgStack.Navigator initialRouteName="msg"
-            screenOptions={{
-                style: {
-                    textAlign: 'center'
-                },
-                headerStyle: {
-                    backgroundColor: '#252623',
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                    fontWeight: 'bold',
-                    alignSelf: 'center',
-                    marginRight: 50
-                },
-            }}>
-            <msgStack.Screen name="msg" component={Message}
-                options={{ title: 'Messages' }}
-                options={{
-                    headerShown: false
-                }} />
-            <msgStack.Screen name="Chat" component={Chat}
-                options={
-                    ({ route }) => ({ title: route.params.userName })}
-            />
-            <msgStack.Screen name="NewMsg" component={NewMsg}
-                options={{ title: 'New Message' }}
-            />
-            <msgStack.Screen name="topTab" component={msg_Top_Tab}
-                options={{ title: 'New Message' }}
-            />
-        </msgStack.Navigator>
-    );
-}
 
 export function root_Tab() {
     return (
@@ -166,41 +53,12 @@ export function root_Tab() {
             }}
         >
             <rootTab.Screen name="Message" component={msg_Stack} options={{ tabBarBadge: 3 }} />
-            <rootTab.Screen name="Friends" component={msg_Top_Tab} />
+            <rootTab.Screen name="Friends" component={Friends_Top_Tab} />
             <rootTab.Screen name="Profile" component={UserProfile} />
-            <rootTab.Screen name="Search" component={Search} />
+            <rootTab.Screen name="Search" component={search_Stack} />
             <rootTab.Screen name="Notification" component={Notification} options={{ tabBarBadge: 6 }} />
         </rootTab.Navigator>
     );
 }
 
 
-class Tab2 extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <View>
-                <Text style={{ fontSize: 20, margin: 10, textAlign: "center" }}>Tab 2</Text>
-                <Button title="Go To Tab1" onPress={() => this.props.navigation.navigate('Tab1')} />
-            </View>
-        );
-    }
-}
-
-class Tab1 extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <View>
-                <Text style={{ fontSize: 20, margin: 10, textAlign: "center" }}>Profile</Text>
-                <Button title="LogOut" onPress={() => this.props.navigation.navigate('Home')} />
-            </View>
-        );
-    }
-}

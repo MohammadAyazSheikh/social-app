@@ -42,15 +42,6 @@ class UserProfile extends Component {
 
 
 
-
-
-    // componentDidMount() {
-    //     setTimeout(() => {
-    //         alert(JSON.stringify(this.props.User.user))
-    //     }, 2000);
-    // }
-
-
     componentDidUpdate() {
         if (this.props.User.logOutSuccess) {
             this.props.navigation.navigate('Home');
@@ -193,7 +184,7 @@ class UserProfile extends Component {
 
                         <View style={styles.infoFieldRow}>
                             <View style={styles.iconView}>
-                                <Icon name='graduation-cap' size={25} color='white' />
+                                <Icon name='venus-mars' size={25} color='white' />
                                 <Text style={styles.iconText}>Gender</Text>
                             </View>
 

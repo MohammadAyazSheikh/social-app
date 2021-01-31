@@ -9,6 +9,9 @@ const windowHeight = Dimensions.get('window').height;
 import { ScrollView } from 'react-native-gesture-handler';
 
 
+
+
+
 export default class FriendProfile extends Component {
     constructor(props) {
         super(props);
@@ -18,14 +21,15 @@ export default class FriendProfile extends Component {
 
     render() {
 
-        const { userName } = this.props.route.params;
+        const { userInfo } = this.props.route.params;
         return (
             <SafeAreaView style={styles.container}>
-                <View style={styles.rowDisplay}>
+                <View style={ userInfo?{...styles.rowDisplay, marginTop:20}: styles.rowDisplay}>
                     <TouchableOpacity style={styles.btnBack}
-                     onPress={() => { this.props.navigation.navigate('Friends')}}
-                      >
-                        <Icon name='arrow-circle-left' size={20} color='white' />
+                        onPress={() => { this.props.navigation.navigate(userInfo?'searchScreen':'Friends') }} >
+                        <View>
+                            <Icon name='arrow-circle-left' size={30} color='white' />
+                        </View>
                     </TouchableOpacity>
                     <View style={styles.imageRow}>
                         <Image
@@ -33,7 +37,7 @@ export default class FriendProfile extends Component {
                             style={styles.img}
                         />
                         <View style={styles.uNameRow}>
-                            <Text style={styles.nameTxt}>{userName ? userName : 'User'}</Text>
+                            <Text style={styles.nameTxt}>{userInfo ? userInfo.fname + " " + userInfo.lname : 'User'}</Text>
                         </View>
                     </View>
                     <View style={styles.btnRow}>
@@ -65,27 +69,31 @@ export default class FriendProfile extends Component {
                                 <Text style={styles.iconText}>Home</Text>
                             </View>
                             <View style={styles.infoTxtView}>
-                                <Text style={styles.TxtInfo}>Karachi</Text>
+                                <Text style={styles.TxtInfo}>{userInfo ? userInfo.addr : "address"}</Text>
                             </View>
                         </View>
 
                         <View style={styles.infoFieldRow}>
                             <View style={styles.iconView}>
-                                <Icon name='heart' size={25} color='white' />
-                                <Text style={styles.iconText}>Relation</Text>
+                                <Icon name='venus-mars' size={25} color='white' />
+                                <Text style={styles.iconText}>Gender</Text>
                             </View>
                             <View style={styles.infoTxtView}>
-                                <Text style={styles.TxtInfo}>Single</Text>
+                                {
+                                    userInfo && userInfo.gender ?
+                                        <Text style={styles.TxtInfo}>Male</Text>
+                                        : <Text style={styles.TxtInfo}>Female</Text>
+                                }
                             </View>
                         </View>
 
                         <View style={styles.infoFieldRow}>
                             <View style={styles.iconView}>
                                 <Icon name='graduation-cap' size={25} color='white' />
-                                <Text style={styles.iconText}>Relation</Text>
+                                <Text style={styles.iconText}>Education</Text>
                             </View>
                             <View style={styles.infoTxtView}>
-                                <Text style={styles.TxtInfo}>PAF-KIET</Text>
+                                <Text style={styles.TxtInfo}>{userInfo ? userInfo.edu : "School"}</Text>
                             </View>
                         </View>
 
@@ -97,12 +105,13 @@ export default class FriendProfile extends Component {
 }
 
 
+
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         alignItems: 'stretch',
         flex: 1,
-        backgroundColor: '#EBEBEA',
+        backgroundColor: '#252623',
     },
 
     rowDisplay: {
@@ -110,15 +119,15 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#252623',//'#E1E2DF',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     btnBack: {
-        flex: 0.1,
+        flex: 1,
         alignSelf: 'flex-start',
         padding: 5
     },
     imageRow: {
-        flex: 4,
+        flex: 2,
         marginTop: windowHeight / 100 * 2,
         marginTop: 30,
         alignItems: 'center',
@@ -196,7 +205,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom:5
+        marginBottom: 5
     },
     TxtInfo: {
         color: 'white',
@@ -207,9 +216,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRightWidth:1,
-        borderRightColor:'white',
-        marginBottom:5
+        borderRightWidth: 1,
+        borderRightColor: 'white',
+        marginBottom: 5
     },
     iconText: {
         color: 'white',
